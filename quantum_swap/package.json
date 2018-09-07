@@ -1,0 +1,16 @@
+{
+  "name": "quantum_swap",
+  "version": "0.1.0",
+  "description": "Script for Atomic Swap with Qtum and Bitcoin",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Dixing (Dex) Xu",
+  "email": "dixignxu@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "bitcore": "^4.1.1",
+    "bitcore-lib": "^0.15.0"
+  }
+}
