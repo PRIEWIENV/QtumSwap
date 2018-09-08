@@ -1,18 +1,23 @@
 {
   "name": "d-rent",
   "version": "1.0.0",
-  "description": "",
+  "description": "A demo for decentralized renting",
   "main": "main.js",
   "dependencies": {
     "bitcoin-core": "^2.0.0",
     "qtumjs": "^1.9.1"
   },
   "devDependencies": {
-    "webpack": "^4.17.2"
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-loader": "^8.0.2",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack"
   },
-  "author": "",
+  "author": "PRIEWIENV",
   "license": "ISC"
 }
