@@ -1,70 +1,222 @@
-pragma solidity^0.4.24;
+pragma solidity ^0.4.24;
 
-contract Market{
+
+/**
+ * @title SafeMath
+ * @dev Math operations with safety checks that revert on error
+ */
+library SafeMath {
+
+    /**
+    * @dev Multiplies two numbers, reverts on overflow.
+    */
+    function mul(uint256 _a, uint256 _b) internal pure returns (uint256) {
+        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+        // benefit is lost if 'b' is also tested.
+        // See: https://github.com/OpenZeppelin/openzeppelin-solidity/pull/522
+        if (_a == 0) {
+            return 0;
+        }
+
+        uint256 c = _a * _b;
+        require(c / _a == _b);
+
+        return c;
+    }
+
+    /**
+    * @dev Integer division of two numbers truncating the quotient, reverts on division by zero.
+    */
+    function div(uint256 _a, uint256 _b) internal pure returns (uint256) {
+        require(_b > 0); // Solidity only automatically asserts when dividing by 0
+        uint256 c = _a / _b;
+        // assert(_a == _b * c + _a % _b); // There is no case in which this doesn't hold
+
+        return c;
+    }
+
+    /**
+    * @dev Subtracts two numbers, reverts on overflow (i.e. if subtrahend is greater than minuend).
+    */
+    function sub(uint256 _a, uint256 _b) internal pure returns (uint256) {
+        require(_b <= _a);
+        uint256 c = _a - _b;
+
+        return c;
+    }
+
+    /**
+    * @dev Adds two numbers, reverts on overflow.
+    */
+    function add(uint256 _a, uint256 _b) internal pure returns (uint256) {
+        uint256 c = _a + _b;
+        require(c >= _a);
+
+        return c;
+    }
+
+    /**
+    * @dev Divides two numbers and returns the remainder (unsigned integer modulo),
+    * reverts when dividing by zero.
+    */
+    function mod(uint256 a, uint256 b) internal pure returns (uint256) {
+        require(b != 0);
+        return a % b;
+    }
+}
+
+
+/**
+ * @title Owned
+ */
+contract Owned {
+    address public owner;
+    address public newOwner;
+    mapping (address => bool) public admins;
+
+    event OwnershipTransferred(
+        address indexed _from, 
+        address indexed _to
+    );
+
+    modifier onlyOwner {
+        require(msg.sender == owner);
+        _;
+    }
+
+    modifier onlyAdmins {
+        require(admins[msg.sender]);
+        _;
+    }
+
+    function transferOwnership(address _newOwner) 
+        public 
+        onlyOwner 
+    {
+        newOwner = _newOwner;
+    }
+
+    function acceptOwnership() 
+        public 
+    {
+        require(msg.sender == newOwner);
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+        newOwner = address(0);
+    }
+
+    function addAdmin(address _admin) 
+        onlyOwner 
+        public 
+    {
+        admins[_admin] = true;
+    }
+
+    function removeAdmin(address _admin) 
+        onlyOwner 
+        public 
+    {
+        delete admins[_admin];
+    }
+
+}
+
+
+contract Market is Owned{
+    using SafeMath for uint256;
+    
+    mapping(address => bool) isLandlord;
+    address[] landlords;
+    
     struct House{
-        //bytes32 secret;
-        uint timeline;
-        uint price;
+        State _state;
+        uint256 price;
         address owner;
         address user;
+        bytes32 hash_;
+        uint256 rentTime;
+        uint256 isRentdate;
     }
     
-    mapping(bytes32=>House) houses;
+    enum State {newHouse, onRent, isRent, overRent}
     
-    modifier OnlyUser(bytes32 hidx){require(houses[hidx].user==msg.sender);_;}
-    modifier OnlyAfter(bytes32 hidx){require(now>houses[hidx].timeline);_;}
-    modifier OnlyBefore(bytes32 hidx){require(now<=houses[hidx].timeline);_;}
-    modifier Exist(bytes32 hidx){require(houses[hidx].owner!=0x0);_;}
-    modifier NotExist(bytes32 hidx){require(houses[hidx].owner==0x0);_;}
-    //modifier checkHash(bytes32 hidx,bytes32 h){require(h==houses[hidx].secret);_;}
+    House[] houses;
+
+    modifier OnlyUser(uint256 i){require(houses[i].user==msg.sender);_;}
+    modifier Exist(uint256 i){require(houses[i].owner!=0x0);_;}
+    modifier NotExist(uint256 i){require(houses[i].owner==0x0);_;}
+
+    event logBeginRent(uint256 houseAmout, address owner, uint256 price, bytes32 _hash);
+    event logBook(uint256 endTime, address user, uint256 price, bytes32 _hash);
+    event logUnlock(uint256 nowtime, uint256 endTime, address user_, string s_k);
     
-    event logUnlock(uint time,address user,uint t2,bool success);
-    event logBook(uint time,address user,uint price,uint timeline);
-    event logRentOut(uint time,address owner,bytes32 hidx,uint price);
     
-    function Market(){
+    constructor() public {
+        owner = msg.sender;
+        admins[msg.sender] = true;
     }
     
-    function() payable{}
-    
-    function rentOut(address owner,uint price,bytes32 hidx) NotExist(hidx){
-        houses[hidx]=House(now,price,owner,0x0);
-        logRentOut(now,owner,hidx,price);
+    function setLandlord(address _addr, bool _bool) public onlyAdmins {
+        require(isLandlord[_addr] != _bool);
+        
+        if (_bool){
+            landlords.push(_addr);
+            isLandlord[_addr] = _bool;
+        } else {
+            for(uint256 i = 0; i < landlords.length; i++) {
+                if(landlords[i] == _addr){
+                    landlords[i] = landlords[landlords.length - 1];
+                    delete landlords[landlords.length - 1];
+                    landlords.length--;
+                    isLandlord[_addr] = _bool;
+                    // TODO 还需要下架他对应的房源 
+                    break;
+                    
+                }
+            }
+        }
     }
     
-    function book(address customer,uint time,bytes32 hidx) public payable Exist(hidx) OnlyAfter(hidx){
-        House storage h=houses[hidx];
-        h.user=customer;
-        h.timeline=time;
-        address owner=h.owner;
-        owner.transfer(h.price);
-        logBook(now,customer,h.price,time);
+    
+    function beginRent(uint256 price, bytes32 _hash, uint256 _rentTime) public {
+        require(isLandlord[msg.sender]);
+        House memory _house = House(State.onRent, price, msg.sender, 0x0, _hash, _rentTime, 0);
+        
+        houses.push(_house);
+        emit logBeginRent(houses.length, msg.sender, price, _hash);
     }
     
-    function unlock(bytes32 hidx)public OnlyUser(hidx) Exist(hidx) OnlyBefore(hidx){
-        House h=houses[hidx];
-        logUnlock(now,h.user,h.timeline,true);
+    function book(uint256 houseNum, bytes32 hidx, uint256 _rentTime) public Exist(houseNum) {
+        House storage h = houses[houseNum];
+        require(h._state == State.onRent && h.user == 0x0);
+        require(h.hash_ == hidx);
+        require(h.rentTime == _rentTime);
+        
+        h.user = msg.sender;
+        h._state = State.isRent;
+        h.isRentdate = now;
+        uint256 _endTime = h.isRentdate.add(h.rentTime);
+        
+        emit logBook(_endTime, msg.sender, h.price, hidx);
     }
     
-    function getHouseInfo(bytes32 hidx)public returns(uint,uint,address,address){
-        House h=houses[hidx];
-        return(h.timeline,h.price,h.owner,h.user);
+    function unlock(string s_k, uint256 houseNum) public Exist(houseNum) {
+        House storage h = houses[houseNum];
+        uint256 _endTime =  h.isRentdate.add(h.rentTime);
+        require(h._state == State.isRent);
+        require(h.user == msg.sender);
+        require(now <= _endTime);
+        require(keccak256(abi.encodePacked(s_k)) == h.hash_);
+        
+        
+        emit logUnlock(now, _endTime, h.user, s_k);
     }
     
-    function getUser(bytes32 hidx)public returns(address){
-        return houses[hidx].user;
+    function getHouseInfo(uint256 houseNum) public view returns(State, uint256, address, address, bytes32, uint256, uint256){
+        House memory h=houses[houseNum];
+        
+        return (h._state, h.price, h.owner, h.user, h.hash_, h.rentTime, h.isRentdate);
     }
     
-    function getPrice(bytes32 hidx) public returns(uint){
-        return houses[hidx].price;
-    }
-    
-    function getTimeLine(bytes32 hidx) public returns(uint){
-        return houses[hidx].timeline;
-    }
-    
-    function getOwner(bytes32 hidx) public returns(address){
-        return houses[hidx].owner;
-    }
     
 }

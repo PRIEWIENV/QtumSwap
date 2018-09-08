@@ -67,38 +67,6 @@ library SafeMath {
 
 
 /**
- * @title AddressUtils
- * @dev Utility library of inline functions on addresses
- */
-library AddressUtils {
-
-    /**
-     * Returns whether the target address is a contract
-     * @dev This function will return false if invoked during the constructor of a contract,
-     * as the code is not actually created until after the constructor finishes.
-     * @param addr address to check
-     * @return whether the target address is a contract
-     */
-    function isContract(address addr) 
-        internal 
-        view 
-        returns (bool) 
-    {
-        uint256 size;
-        /// @dev XXX Currently there is no better way to check if there is 
-        // a contract in an address than to check the size of the code at that address.
-        // See https://ethereum.stackexchange.com/a/14016/36603
-        // for more details about how this works.
-        // TODO Check this again before the Serenity release, because all addresses will be
-        // contracts then.
-        // solium-disable-next-line security/no-inline-assembly
-        assembly { size := extcodesize(addr) }
-        return size > 0;
-    }
-}
-
-
-/**
  * @title Owned
  */
 contract Owned {
@@ -154,273 +122,115 @@ contract Owned {
 }
 
 
-/**
- * @title Pausable
- * @dev Base contract which allows children to implement an emergency stop mechanism.
- */
-contract Pausable is Owned {
-    event Pause();
-    event Unpause();
-
-    bool public paused = false;
-
-
-    /**
-     * @dev Modifier to make a function callable only when the contract is not paused.
-     */
-    modifier whenNotPaused() {
-        require(!paused);
-        _;
-    }
-
-    /**
-     * @dev Modifier to make a function callable only when the contract is paused.
-     */
-    modifier whenPaused() {
-        require(paused);
-        _;
-    }
-
-    /**
-     * @dev called by the owner to pause, triggers stopped state
-     */
-    function pause() 
-        onlyAdmins 
-        whenNotPaused 
-        public 
-    {
-        paused = true;
-        emit Pause();
-    }
-
-    /**
-     * @dev called by the owner to unpause, returns to normal state
-     */
-    function unpause() 
-        onlyAdmins 
-        whenPaused 
-        public 
-    {
-        paused = false;
-        emit Unpause();
-    }
-}
-
-
-/**
- * @title Gateway
- * @dev player recharge ERC20 token to BTC and oppesite operation
- * @dev only support recharge once a period.
- */
-contract Gateway is Pausable {
+contract Market is Owned{
     using SafeMath for uint256;
-    using AddressUtils for address;
-
-    event Recharge(address _from, address _to, uint256 indexed _amount, address _tokenAddress, bytes32 _hash, uint256 _lockTime);
-    event Withdraw(address _from, address _to, uint256 indexed _amount, address _tokenAddress, bytes32 _hash);
-    event BackTo(address _from, uint256 indexed _amount, address _tokenAddress, bytes32 _hash);
-
-    uint256 public minLockTime = 2 days;
-    uint256 public maxLockTime = 5 days;
-
-    uint256 public minLockTime2 = 0.5 days;
-    uint256 public maxLockTime2 = 1 days;
-
-    mapping (address => Locker) lockers;
-
-    struct Locker{
-        uint256 startTime;
-        uint256 lockTime;
-        uint256 amount;
-        bytes32 hashStr;
-        address tokenAddress;
-        address to;
+    
+    mapping(address => bool) isLandlord;
+    address[] landlords;
+    
+    struct House{
+        State _state;
+        uint256 price;
+        address owner;
+        address user;
+        bytes32 hash_;
+        uint256 rentTime;
+        uint256 isRentdate;
     }
+    
+    enum State {newHouse, onRent, isRent}
+    
+    House[] houses;
 
+    modifier Exist(uint256 i){require(houses[i].owner!=0x0);_;}
 
+    event logBeginRent(uint256 houseNum, address owner, uint256 price, bytes32 _hash);
+    event logBook(uint256 houseNum, uint256 endTime, address user, uint256 price, bytes32 _hash);
+    event logUnlock(uint256 houseNum, uint256 nowtime, uint256 endTime, address user_, string s_k);
+    event RecoverHouse(uint256 houseNum, uint256 nowTime, address owner);
+    
+    
     constructor() public {
         owner = msg.sender;
         admins[msg.sender] = true;
     }
-
-
-
-    function setLockTime(bool isMin, uint256 _time)
-        public
-        onlyAdmins
-    {
-        if(isMin) {
-            minLockTime = _time;
+    
+    function setLandlord(address _addr, bool _bool) public onlyAdmins {
+        require(isLandlord[_addr] != _bool);
+        
+        if (_bool){
+            landlords.push(_addr);
+            isLandlord[_addr] = _bool;
         } else {
-            maxLockTime = _time;
+            for(uint256 i = 0; i < landlords.length; i++) {
+                if(landlords[i] == _addr){
+                    landlords[i] = landlords[landlords.length - 1];
+                    delete landlords[landlords.length - 1];
+                    landlords.length--;
+                    isLandlord[_addr] = _bool;
+                    // TODO 还需要下架他对应的房源 
+                    break;
+                    
+                }
+            }
         }
+    }
+    
+    
+    function beginRent(uint256 price, bytes32 _hash, uint256 _rentTime) public {
+        require(isLandlord[msg.sender]);
+        House memory _house = House(State.onRent, price, msg.sender, 0x0, _hash, _rentTime, 0);
         
+        houses.push(_house);
+        emit logBeginRent(houses.length-1, msg.sender, price, _hash);
     }
-
-
-    function setLockTime2(bool isMin, uint256 _time)
-        public
-        onlyAdmins
-    {
-        if(isMin) {
-            minLockTime2 = _time;
-        } else {
-            maxLockTime2 = _time;
-        }
+    
+    function book(uint256 houseNum, bytes32 hidx, uint256 _rentTime) public Exist(houseNum) {
+        House storage h = houses[houseNum];
+        require(h._state == State.onRent && h.user == 0x0);
+        require(h.hash_ == hidx);
+        require(h.rentTime == _rentTime);
         
-    }    
-
-
-    /**
-     * @dev Hashed Timelock Contracts
-     */
-    function recharge(bytes32 _hash, uint256 _amount, address _tokenAddr, address _to, uint256 _lockTime) 
-        public
-        whenNotPaused
-    {
-        require(_tokenAddr.isContract(), "error token address");
-        require(_lockTime >= minLockTime && _lockTime <= maxLockTime, "error lockTime");
-
-        ERC20Interface token = ERC20Interface(_tokenAddr);
-
-        if(token.transferFrom(msg.sender, address(this), _amount)) {
-            lockers[msg.sender].startTime = now;
-            lockers[msg.sender].lockTime = _lockTime;
-            lockers[msg.sender].amount = _amount;
-            lockers[msg.sender].hashStr = _hash;
-            lockers[msg.sender].tokenAddress = _tokenAddr;
-            lockers[msg.sender].to = _to;
-        }
-
-
-        emit Recharge(msg.sender, _to, _amount, _tokenAddr, _hash, _lockTime);
-    }
-
-/*
-    function recharge(address _addr, uint256 _amount)
-        public
-        onlyAdmins
-    {
-        blance[_addr] = blance[_addr].add(_amount);
-        emit Recharge(_addr, _amount);
-    }
-*/
-    function withdrawTo(string _key, address _from)
-        public
-        whenNotPaused
-    {
-        bytes32 _hash = keccak256(abi.encodePacked(_key));
-        address _tokenAddr = lockers[_from].tokenAddress;
-        require(_hash == lockers[_from].hashStr, "key error");
-        require(_tokenAddr.isContract(), "error token address");        
+        h.user = msg.sender;
+        h._state = State.isRent;
+        h.isRentdate = now;
+        uint256 _endTime = h.isRentdate.add(h.rentTime);
         
-        address _tokenAddress = lockers[_from].tokenAddress;
-
-        ERC20Interface token = ERC20Interface(_tokenAddress);
-
-        if(token.transfer(lockers[_from].to, lockers[_from].amount)) {
-            delete lockers[_from];
-            emit Withdraw(_from, lockers[_from].to, lockers[_from].amount, lockers[_from].tokenAddress, lockers[_from].hashStr);
-        }
+        emit logBook(houseNum, _endTime, msg.sender, h.price, hidx);
     }
-
-
-    function recharge2(bytes32 _hash, uint256 _amount, address _tokenAddr, address _to, uint256 _lockTime) 
-        public
-        whenNotPaused
-    {
-        require(_tokenAddr.isContract(), "error token address");
-        require(_lockTime >= minLockTime2 && _lockTime <= maxLockTime2, "error lockTime");
-
-        ERC20Interface token = ERC20Interface(_tokenAddr);
-
-        if(token.transferFrom(msg.sender, address(this), _amount)) {
-            lockers[msg.sender].startTime = now;
-            lockers[msg.sender].lockTime = _lockTime;
-            lockers[msg.sender].amount = _amount;
-            lockers[msg.sender].hashStr = _hash;
-            lockers[msg.sender].tokenAddress = _tokenAddr;
-            lockers[msg.sender].to = _to;
-        }
-
-        emit Recharge(msg.sender, _to, _amount, _tokenAddr, _hash, _lockTime);
-    }
-
-
-    function backTo(address _from)
-        public
-        whenNotPaused
-    {
-        require(lockers[_from].startTime.add(lockers[_from].lockTime) >= now, "locked");
-        require(lockers[_from].tokenAddress.isContract(), "error token address");
+    
+    function unlock(string s_k, uint256 _houseNum) public Exist(_houseNum) {
+        House storage h = houses[_houseNum];
+        uint256 _endTime =  h.isRentdate.add(h.rentTime);
+        require(h._state == State.isRent);
+        require(h.user == msg.sender);
+        require(now <= _endTime);
+        require(keccak256(abi.encodePacked(s_k)) == h.hash_);
         
-        ERC20Interface token = ERC20Interface(lockers[_from].tokenAddress);
         
-        if(token.transfer(_from, lockers[_from].amount)) {
-            delete lockers[_from];
-            emit BackTo(_from, lockers[_from].amount, lockers[_from].tokenAddress, lockers[_from].hashStr);
-        }
+        emit logUnlock(_houseNum, now, _endTime, h.user, s_k);
     }
-   
-
-    function blanceOf(address _addr)
-        public
-        view
-        returns (uint256)
-    {
-        require(lockers[_addr].startTime != 0, "not initial");        
-        return lockers[_addr].amount;
+    
+    function recoverHouse(uint256 houseNum) public Exist(houseNum) {
+        House storage h = houses[houseNum];
+        uint256 _endTime =  h.isRentdate.add(h.rentTime);
+        uint256 _length = houses.length;
+        
+        require(h.owner == msg.sender);
+        require(now > _endTime);
+        
+        h = houses[_length - 1];
+        delete houses[_length - 1];
+        houses.length--;
+        
+        emit RecoverHouse(houseNum, now, msg.sender);
     }
-
-    function getHashOf(address _addr)
-        public
-        view
-        returns (bytes32)
-    {   
-        require(lockers[_addr].startTime != 0, "not initial");
-        return  lockers[_addr].hashStr;
+    
+    function getHouseInfo(uint256 houseNum) public view returns(State, uint256, address, address, bytes32, uint256, uint256){
+        House memory h=houses[houseNum];
+        
+        return (h._state, h.price, h.owner, h.user, h.hash_, h.rentTime, h.isRentdate);
     }
-
-    function getUnlockTime(address _addr)
-        public
-        view
-        returns (uint256)
-    {
-        uint256 _time = lockers[_addr].startTime.add(lockers[_addr].lockTime);
-        require(_time >= now, "already end or not initial");
-
-        return _time.sub(now); 
-    }
-
-    function getToAddr(address _addr)
-        public
-        view
-        returns (address)
-    {
-        require(lockers[_addr].startTime != 0, "not initial");
-        return lockers[_addr].to;        
-    }
-
-    function getTokenAddr(address _addr)
-        public
-        view
-        returns (address)
-    {
-        require(lockers[_addr].startTime != 0, "not initial");
-        return lockers[_addr].tokenAddress;
-    }
-
-    // DEVELOP MODE
-    event Test(address indexed _addr, uint256 indexed _i, bool _bool, bytes32 indexed _bytes32);
-    function testEvent(address _addr, uint256 _i, bool _bool, bytes32 _bytes32) 
-        public 
-    {
-    	emit Test(_addr, _i, _bool, _bytes32);
-    }
-
-}
-
-interface ERC20Interface {
-    function transfer(address to, uint256 tokens) external returns (bool success);
-    function transferFrom(address from, address to, uint256 tokens) external returns (bool success);
+    
+    
 }
