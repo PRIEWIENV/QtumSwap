@@ -1,15 +1,19 @@
 {
-  "name": "quantum_swap",
+  "name": "swap_script",
   "version": "0.1.0",
-  "description": "Script for Atomic Swap with Qtum and Bitcoin",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "node index.js"
   },
-  "author": "Dixing (Dex) Xu",
-  "email": "dixignxu@gmail.com",
+  "keywords": [
+    "swap"
+  ],
+  "author": "Dixing (Dex)",
   "license": "MIT",
   "dependencies": {
-    "bitcore": "^4.1.1"
+    "bitcoin": "^3.0.1",
+    "bitcoinjs-lib": "^4.0.1",
+    "qtumjs": "^1.9.1"
   }
 }
