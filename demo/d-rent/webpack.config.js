@@ -11,17 +11,18 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /(\.jsx|\.js)$/,
+        test: /\.js$/,
         use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "env"
-            ]
-          }
+          loader: "babel-loader"
         },
         exclude: /node_modules/
       }
     ]
-  } 
+  },
+  node: {
+    console: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  }
 };
