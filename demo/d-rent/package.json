@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "bitcoin-core": "^2.0.0",
     "qtumjs": "^1.9.1"
   },
   "devDependencies": {

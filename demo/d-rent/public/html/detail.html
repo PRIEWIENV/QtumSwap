@@ -87,20 +87,29 @@
                 building. Extra high speed WiFi.</p>
 
             <p>Host: Oli</p>
-            <p>Accommendation: 1 Person</p>
-            <p>Price: $179/month</p>
+            <p>Accommendation: 1 Bed</p>
+            <p>Price: 0.01 BTC/day</p>
 
-            <label>Order days
-                <select>
-                    <option value="husker">1 month</option>
-                    <option value="starbuck">3 months</option>
-                    <option value="hotdog">6 months</option>
-                    <option value="apollo">1 year</option>
-                </select>
-            </label>
+            <div class="input-group">
+                <input class="input-group-field" type="number">
+                <span class="input-group-label">days</span>
+            </div>
             <div class="row">
             </div>
-            <a href="receipt.html" class="button large expanded">Book Now</a>
+            <a class="button large expanded" data-open="Modal-1">Book Now</a>
+            <div class="reveal" id="Modal-1" data-reveal style="position: relative">
+                <h1>Confirm your transaction</h1>
+                <p class="lead">Sunny Central Apartment with Style</p>
+                <p>Host: Oli (2N7xE5HuP1vdJShhrpJFnqu6od3PvUUVvYY)</p>
+                <p>Accommendation: 1 Bed</p>
+                <p>Price: 0.01 BTC/day</p>
+                <p>3 days</p>
+                <p>Total: 0.03 BTC</p>
+                <a class="button large expanded" onclick="bookRoom()">Send Tx</a>
+                <button class="close-button" data-close aria-label="Close modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="small secondary expanded button-group">
             </div>
         </div>
