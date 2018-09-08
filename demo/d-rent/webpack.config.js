@@ -16,13 +16,19 @@ module.exports = {
           loader: "babel-loader"
         },
         exclude: /node_modules/
+      },
+      {
+        test: /\.json$/,
+        use: {
+          loader: "json-loader"
+        },
+        exclude: /node_modules/
       }
     ]
   },
   node: {
-    console: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
+    fs: "empty",
+    net: "empty",
+    tls: "empty"
   }
 };
