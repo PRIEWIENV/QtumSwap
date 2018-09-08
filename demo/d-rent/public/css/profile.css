@@ -8528,3 +8528,9 @@ screen and (min-width:64em) {
     flex-direction: column-reverse
   }
 }
+
+.dropdown-pane {
+  background-color: #7d24ea;
+  border: 0;
+  width: 400px;
+}

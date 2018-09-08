@@ -4328,3 +4328,11 @@ screen and (min-width:40em) {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto
 }
+
+/* new */
+
+.dropdown-pane {
+  background-color: #7d24ea;
+  border: 0;
+  width: 400px;
+}

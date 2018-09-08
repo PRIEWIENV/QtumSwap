@@ -46,9 +46,16 @@
       </ul>
     </div>
     <div class="top-bar-right">
-      <ul class="menu">
-        <li><a href="#">My Account</a></li>
-      </ul>
+        <ul class="menu">
+            <li class="menu-text" role="menuitem" tabindex="0"><a href="" data-toggle="dropdown-1">My Account</a></li>
+            <div class="dropdown-pane" id="dropdown-1" data-dropdown data-hover="true" data-hover-pane="true">
+                <div>Bitcoin address:</div>
+                <div class="btc-addr">2N7zWpgzJXb5M7KjeybmhyUJWFk8HqEF1en</div>
+                <div>
+                    <span>Balance: </span><span class="btc-balance">10</span>
+                </div>
+            </div>
+        </ul>
     </div>
   </div>
 
@@ -80,7 +87,7 @@
     <p>Made with Wanxiang blockchain hackathon.❤️</p>
   </div>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js"></script>
   <script src="bundle.js"></script>
   <script>
     $(document).foundation();
