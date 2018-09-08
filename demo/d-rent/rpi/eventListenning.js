@@ -4,7 +4,7 @@ const {
 } = require("qtumjs")
 
 const repoData = require("./solar.json")
-const qtum = new Qtum("http://qtum:test@localhost:3889", repoData)
+const qtum = new Qtum("http://root:qtum@localhost:3889", repoData)
 const market = qtum.contract("contracts/Market.sol")
 
 async function streamEvents() {
