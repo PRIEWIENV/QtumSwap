@@ -10,7 +10,6 @@
   "email": "dixignxu@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "bitcore": "^4.1.1",
-    "bitcore-lib": "^0.15.0"
+    "bitcore": "^4.1.1"
   }
 }
