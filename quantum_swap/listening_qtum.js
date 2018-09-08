@@ -1,24 +1,22 @@
-const Client = require('bitcoin-core');
-var address = '2N7zWpgzJXb5M7KjeybmhyUJWFk8HqEF1en'
+const {
+  QtumRPC,
+} = require("qtumjs")
+
+var address = 'qfMtLsfjEBhHRsJjPwb5g7cWGE8m854fYq'
 var address_b = 'nothing'
 const script_temp = 'OP_HASH160 a1c1b33c526467766ac8b4b9ab07d912c2c9c732 OP_EQUAL'
 
-//root@btc@47.52.22.90:18443
-const client = new Client({
-  host: '47.52.22.90',
-  port: 18443,
-  username: 'root',
-  password: 'btc',
-  version: '0.16.2'
-});
+const rpc = new QtumRPC("http://qtum:test@47.52.22.90:3889");
 
 setInterval(
   function() {
-    client.listUnspent(1, 9999999, [address]).then((utxos) => {
-      console.log(utxos)
-      if (!(utxos.length === 0)) {
+    rpc.rawCall("listunspent", [1, 9999999, [address]]).then((utxos) => {
+      //console.log(utxos)
+      if (utxos.length === 0) {
+        throw new Error("No UTXOs");
+      } else {
         for (id in utxos) {
-          return client.getTxOut(utxos[id].txid, utxos[id].vout)
+          return rpc.rawCall("gettxout", [utxos[id].txid, utxos[id].vout])
         }
       }
     }).then((tx) => {
