@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "bitcoin": "^3.0.1",
+    "bitcoin-core": "^2.0.0",
     "bitcoinjs-lib": "^4.0.1",
     "qtumjs": "^1.9.1"
   }
