@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/Users/5swind/Downloads/Wanxiang-hackathon/QtumSwap/demo/d-rent/css/index.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet" type="text/css">
-  
+
 
   <meta class="foundation-mq">
 </head>
@@ -39,17 +39,22 @@
     ga('foundation.send', 'pageview');
   </script>
 
-  <div class="top-bar" id="realEstateMenu">
-    <div class="top-bar-left">
-      <ul class="menu menu-hover-lines">
-        <li role="menuitem"><a href="#">Smart City</a></li>
-        <li role="menuitem"><a href="index.html">House Rental</a></li>
-      </ul>
-    </div>
-    <div class="top-bar-right">
-      <ul class="menu">
-        <li><a href="#">My Account</a></li>
-      </ul>
+  <div class="top-bar foundation-5-top-bar" id="realEstateMenu">
+      <div class="top-bar-left">
+        <ul class="menu menu-hover-lines">
+          <li role="menuitem"><a href="smart-city.html">Smart City</a></li>
+          <li role="menuitem"><a href="index.html">House Rental</a></li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown"
+          data-auto-height="true" data-animate-height="true">
+          <li><a href="#">My Account</a>
+            <ul class="menu">
+              <li><a href="#">Bitcoin Address:murq2frn6cSGPvnDCyyYiG1zFYYMUqunTn</a></li>
+              <li><a href="#">Balance:</a></li>
+          </li>
+        </ul>
     </div>
   </div>
 
