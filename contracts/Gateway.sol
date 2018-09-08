@@ -410,6 +410,14 @@ contract Gateway is Pausable {
         return lockers[_addr].tokenAddress;
     }
 
+    // DEVELOP MODE
+    event Test(address indexed _addr, uint256 indexed _i, bool _bool, bytes32 indexed _bytes32);
+    function testEvent(address _addr, uint256 _i, bool _bool, bytes32 _bytes32) 
+        public 
+    {
+    	emit Test(_addr, _i, _bool, _bytes32);
+    }
+
 }
 
 interface ERC20Interface {
