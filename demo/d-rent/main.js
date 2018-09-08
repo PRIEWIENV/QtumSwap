@@ -12,5 +12,5 @@ function getAddress () {
 
 module.exports = {
   getAddress: getAddress
-}
+};
 
