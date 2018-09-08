@@ -9,8 +9,8 @@ const client = new Client({
     password: 'btc',
     version: '0.16.2'
   });
-  
-function getBalance() {
+
+$('.dropdown-pane').on('show.zf.dropdown', function() {
   client.listUnspent(1, 9999999, [address]).then((utxos) => {
     console.log(utxos)
     var balance = 0
@@ -21,13 +21,9 @@ function getBalance() {
         }
       }
       console.log(balance)
+      $('.btc-balance').html(balance)
     }
   }).catch(err => {
     console.log("error", err)
   })
-}
-
-$('.dropdown-pane').on('show.zf.dropdown', function() {
-  $('.btc-balance').html(getBalance())
-  console.log('Those tabs sure did change!')
 });
