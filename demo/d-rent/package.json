@@ -1,0 +1,27 @@
+{
+  "name": "d-rent",
+  "version": "1.0.0",
+  "description": "qtum-bitcoin swaps",
+  "main": "main.js",
+  "dependencies": {
+    "bitcoinjs-lib": "^4.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PRIEWIENV/QtumSwap.git"
+  },
+  "keywords": [
+    "bitcoin",
+    "qtum"
+  ],
+  "author": "5sWind",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PRIEWIENV/QtumSwap/issues"
+  },
+  "homepage": "https://github.com/PRIEWIENV/QtumSwap#readme"
+}

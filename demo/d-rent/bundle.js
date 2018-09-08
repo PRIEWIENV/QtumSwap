@@ -5884,7 +5884,7 @@ function getAddress () {
 
 module.exports = {
   getAddress: getAddress
-}
+};
 
 
 },{"bitcoinjs-lib":44}],31:[function(require,module,exports){
@@ -8960,8 +8960,8 @@ check.toJSON = function () { return 'witnessScriptHash input' }
 
 module.exports = { check }
 
-}).call(this,{"isBuffer":require("../../../../../../../../../.nvm/versions/node/v8.9.1/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../.nvm/versions/node/v8.9.1/lib/node_modules/browserify/node_modules/is-buffer/index.js":8,"../../script":55,"../../types":81,"../multisig/":58,"../pubkey/":62,"../pubkeyhash/":65,"typeforce":142}],78:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../../.nvm/versions/node/v8.9.1/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../../.nvm/versions/node/v8.9.1/lib/node_modules/browserify/node_modules/is-buffer/index.js":8,"../../script":55,"../../types":81,"../multisig/":58,"../pubkey/":62,"../pubkeyhash/":65,"typeforce":142}],78:[function(require,module,exports){
 // OP_0 {scriptHash}
 
 const bscript = require('../../script')
@@ -21305,8 +21305,8 @@ for (var typeName in types) {
 
 module.exports = types
 
-}).call(this,{"isBuffer":require("../../../../../../.nvm/versions/node/v8.9.1/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
-},{"../../../../../../.nvm/versions/node/v8.9.1/lib/node_modules/browserify/node_modules/is-buffer/index.js":8,"./errors":140,"./native":143}],142:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../.nvm/versions/node/v8.9.1/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../.nvm/versions/node/v8.9.1/lib/node_modules/browserify/node_modules/is-buffer/index.js":8,"./errors":140,"./native":143}],142:[function(require,module,exports){
 var ERRORS = require('./errors')
 var NATIVE = require('./native')
 
