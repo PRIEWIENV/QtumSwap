@@ -8,7 +8,7 @@
       <li>
         <input class="s1"
         >
-          balance:
+          balance: {{ getBalance }}
       </li>
     </ul>
     <ul>
@@ -16,9 +16,9 @@
           Receiver:
       </li>
       <li>
-        <input class="s2"
+        <input class="s2" value="2N7zWpgzJXb5M7KjeybmhyUJWFk8HqEF1en"
         >
-          balance:
+          balance: {{ getBalance }}
       </li>
     </ul>
     <ul>
@@ -32,8 +32,8 @@
       <li>
         <select
         >
-        <option value="bitcoin">bitcoin</option>
-        <option value="qtum">qtum</option>
+        <option value="bitcoin">BTC</option>
+        <option value="qtum">QTUM</option>
         <option value="erc20">ERC20</option>
         <option value="erc721">ERC721</option>
         </select>
@@ -41,7 +41,7 @@
     </ul>
     <br>
     <form v-loading="'loading...'">
-    <button type="submit" class="button is-primary is-fullwidth">Send Tx</button>
+    <button type="submit">Send Tx</button>
     <br>
     <p>Waiting for other's response...</p>
     <p>Got Bitcoin!</p>
@@ -51,15 +51,22 @@
 </template>
 
 <script>
+var { getBalance, address } = require('@/assets/getbalance')
 
-export default {
-  name: "QtumSwap",
-  data() {
+this.getBalance = getBalance()
+
+module.exports = {
+  name: 'QtumSwap',
+  data () {
     return {
-      msg: "A simple demo for Qtum && Bitcoin && NFT atomic swap."
-    };
+      msg: 'A simple demo for Qtum && Bitcoin && NFT atomic swap.',
+      getBalance: 0,
+      address: '2N7zWpgzJXb5M7KjeybmhyUJWFk8HqEF1en'
+    }
+  },
+  methods: {
   }
-};
+}
 
 </script>
 
@@ -100,4 +107,3 @@ button {
   display: inherit;
 }
 </style>
-
