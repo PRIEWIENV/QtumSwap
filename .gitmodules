@@ -1,0 +1,3 @@
+[submodule "swap_script"]
+	path = swap_script
+	url = git@github.com:DexHunter/swap_script.git
