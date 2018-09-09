@@ -1,0 +1,453 @@
+{
+  "contracts": {
+    "Gateway.sol": {
+      "source": "Gateway.sol:Gateway",
+      "abi": [
+        {
+          "name": "getTokenAddr",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_addr",
+              "type": "address",
+              "indexed": false
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "indexed": false
+            }
+          ],
+          "constant": true,
+          "anonymous": false
+        },
+        {
+          "name": "blanceOf",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_addr",
+              "type": "address",
+              "indexed": false
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "constant": true,
+          "anonymous": false
+        },
+        {
+          "name": "setLockTime2",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "isMin",
+              "type": "bool",
+              "indexed": false
+            },
+            {
+              "name": "_time",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "outputs": [],
+          "constant": false,
+          "anonymous": false
+        },
+        {
+          "name": "setLockTime",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "isMin",
+              "type": "bool",
+              "indexed": false
+            },
+            {
+              "name": "_time",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "outputs": [],
+          "constant": false,
+          "anonymous": false
+        },
+        {
+          "name": "getToAddr",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_addr",
+              "type": "address",
+              "indexed": false
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "indexed": false
+            }
+          ],
+          "constant": true,
+          "anonymous": false
+        },
+        {
+          "name": "minLockTime2",
+          "type": "function",
+          "payable": false,
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "constant": true,
+          "anonymous": false
+        },
+        {
+          "name": "maxLockTime2",
+          "type": "function",
+          "payable": false,
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "constant": true,
+          "anonymous": false
+        },
+        {
+          "name": "recharge2",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_hash",
+              "type": "bytes32",
+              "indexed": false
+            },
+            {
+              "name": "_amount",
+              "type": "uint256",
+              "indexed": false
+            },
+            {
+              "name": "_tokenAddr",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_to",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_lockTime",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "outputs": [],
+          "constant": false,
+          "anonymous": false
+        },
+        {
+          "name": "minLockTime",
+          "type": "function",
+          "payable": false,
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "constant": true,
+          "anonymous": false
+        },
+        {
+          "name": "getHashOf",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_addr",
+              "type": "address",
+              "indexed": false
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "indexed": false
+            }
+          ],
+          "constant": true,
+          "anonymous": false
+        },
+        {
+          "name": "withdrawTo",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_key",
+              "type": "string",
+              "indexed": false
+            },
+            {
+              "name": "_from",
+              "type": "address",
+              "indexed": false
+            }
+          ],
+          "outputs": [],
+          "constant": false,
+          "anonymous": false
+        },
+        {
+          "name": "maxLockTime",
+          "type": "function",
+          "payable": false,
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "constant": true,
+          "anonymous": false
+        },
+        {
+          "name": "getUnlockTime",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_addr",
+              "type": "address",
+              "indexed": false
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "constant": true,
+          "anonymous": false
+        },
+        {
+          "name": "backTo",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_from",
+              "type": "address",
+              "indexed": false
+            }
+          ],
+          "outputs": [],
+          "constant": false,
+          "anonymous": false
+        },
+        {
+          "name": "recharge",
+          "type": "function",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_hash",
+              "type": "bytes32",
+              "indexed": false
+            },
+            {
+              "name": "_amount",
+              "type": "uint256",
+              "indexed": false
+            },
+            {
+              "name": "_tokenAddr",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_to",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_lockTime",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "outputs": [],
+          "constant": false,
+          "anonymous": false
+        },
+        {
+          "name": "",
+          "type": "constructor",
+          "payable": false,
+          "inputs": [],
+          "outputs": null,
+          "constant": false,
+          "anonymous": false
+        },
+        {
+          "name": "Recharge",
+          "type": "event",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_from",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_to",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_amount",
+              "type": "uint256",
+              "indexed": true
+            },
+            {
+              "name": "_tokenAddress",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_hash",
+              "type": "bytes32",
+              "indexed": false
+            },
+            {
+              "name": "_lockTime",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "outputs": null,
+          "constant": false,
+          "anonymous": false
+        },
+        {
+          "name": "Withdraw",
+          "type": "event",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_from",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_to",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_amount",
+              "type": "uint256",
+              "indexed": true
+            },
+            {
+              "name": "_tokenAddress",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_hash",
+              "type": "bytes32",
+              "indexed": false
+            }
+          ],
+          "outputs": null,
+          "constant": false,
+          "anonymous": false
+        },
+        {
+          "name": "BackTo",
+          "type": "event",
+          "payable": false,
+          "inputs": [
+            {
+              "name": "_from",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_amount",
+              "type": "uint256",
+              "indexed": true
+            },
+            {
+              "name": "_tokenAddress",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "name": "_hash",
+              "type": "bytes32",
+              "indexed": false
+            }
+          ],
+          "outputs": null,
+          "constant": false,
+          "anonymous": false
+        }
+      ],
+      "bin": "60806040526202a3006000556206978060015561a8c06002556201518060035534801561002b57600080fd5b5061095a8061003b6000396000f3006080604052600436106100da5763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416630bab6f2681146100df57806312568c241461011c5780634d0e0a171461014f5780637797659d1461016e5780637886fc7b1461018b578063822d2f9b146101ac57806394beccac146101c15780639c90ea71146101d6578063a60ff76614610206578063bb43a11e1461021b578063ced4c0641461023c578063d308e10e146102a0578063dbed1e88146102b5578063dc91868f146102d6578063f8b44532146101d6575b600080fd5b3480156100eb57600080fd5b50610100600160a060020a03600435166102f7565b60408051600160a060020a039092168252519081900360200190f35b34801561012857600080fd5b5061013d600160a060020a0360043516610319565b60408051918252519081900360200190f35b34801561015b57600080fd5b5061016c6004351515602435610337565b005b34801561017a57600080fd5b5061016c6004351515602435610351565b34801561019757600080fd5b50610100600160a060020a0360043516610367565b3480156101b857600080fd5b5061013d610388565b3480156101cd57600080fd5b5061013d61038e565b3480156101e257600080fd5b5061016c600435602435600160a060020a0360443581169060643516608435610394565b34801561021257600080fd5b5061013d610501565b34801561022757600080fd5b5061013d600160a060020a0360043516610507565b34801561024857600080fd5b506040805160206004803580820135601f810184900484028501840190955284845261016c94369492936024939284019190819084018382808284375094975050509235600160a060020a0316935061052592505050565b3480156102ac57600080fd5b5061013d61075d565b3480156102c157600080fd5b5061013d600160a060020a0360043516610763565b3480156102e257600080fd5b5061016c600160a060020a03600435166107ad565b600160a060020a03908116600090815260046020819052604090912001541690565b600160a060020a031660009081526004602052604090206002015490565b811561034757600281905561034d565b60038190555b5050565b811561036157600081905561034d565b60015550565b600160a060020a039081166000908152600460205260409020600501541690565b60025481565b60035481565b604080517f23b872dd0000000000000000000000000000000000000000000000000000000081523360048201523060248201526044810186905290518491600160a060020a038316916323b872dd916064808201926020929091908290030181600087803b15801561040557600080fd5b505af1158015610419573d6000803e3d6000fd5b505050506040513d602081101561042f57600080fd5b50511561049f573360009081526004602081905260409091204281556001810184905560028101879055600381018890559081018054600160a060020a0387811673ffffffffffffffffffffffffffffffffffffffff199283161790925560059092018054918616919092161790555b60408051338152600160a060020a0380861660208301528616818301526060810188905260808101849052905186917f98b44e5e9264e0a53d90b9b487ffb7db9540762c702713626c4c3df90ae9a0dc919081900360a00190a2505050505050565b60005481565b600160a060020a031660009081526004602052604090206003015490565b6000806000846040516020018082805190602001908083835b6020831061055d5780518252601f19909201916020918201910161053e565b6001836020036101000a0380198251168184511680821785525050505050509050019150506040516020818303038152906040526040518082805190602001908083835b602083106105c05780518252601f1990920191602091820191016105a1565b51815160209384036101000a600019018019909216911617905260408051929094018290038220600160a060020a038b811660009081526004808552878220600381018590558082015460058201546002909201547fa9059cbb0000000000000000000000000000000000000000000000000000000089529185169288019290925260248701529651929b509516985088975087965063a9059cbb955060448084019592945090928390030190829087803b15801561067e57600080fd5b505af1158015610692573d6000803e3d6000fd5b505050506040513d60208110156106a857600080fd5b50511561075657600160a060020a0384166000818152600460208181526040808420848155600181018590556002810185905560038101859055928301805473ffffffffffffffffffffffffffffffffffffffff199081169091556005909301805490931690925581519384528301829052828101829052606083018290525190917f68e813c93814923933c25a9a75d08e1c5067016031bcf913824946294a95d91f919081900360800190a25b5050505050565b60015481565b600160a060020a0381166000908152600460205260408120600181015490548291610794919063ffffffff61090516565b90506107a6814263ffffffff61091716565b9392505050565b600160a060020a0380821660008181526004602081815260408084208084015460029091015482517fa9059cbb000000000000000000000000000000000000000000000000000000008152948501969096526024840195909552519390941693849363a9059cbb936044808501948390030190829087803b15801561083157600080fd5b505af1158015610845573d6000803e3d6000fd5b505050506040513d602081101561085b57600080fd5b50511561034d57600160a060020a0382166000818152600460208181526040808420848155600181018590556002810185905560038101859055928301805473ffffffffffffffffffffffffffffffffffffffff1990811690915560059093018054909316909255815193845283018290528281018290525190917f72c0537c2d7d56e35107e50e9f5bba05c2906acc21290861f1bf8ea8d9693a38919081900360600190a25050565b6000828201838110156107a657600080fd5b6000808383111561092757600080fd5b50509003905600a165627a7a723058205e1b6f06f28cad6b7c64c20316b73b5b79006ddb1cd98376cf39eb5f9cd94c430029",
+      "binhash": "a7c1f0145a4648fe1f4569756c6113a50572dff7baf36dee505d58bf78abef3b",
+      "name": "Gateway",
+      "deployName": "Gateway.sol",
+      "address": "89e8a371cd130c3d5124058a5211777fdb65a635",
+      "txid": "e2140a427af218f3eddfd44fa9b970b01dd3fae77aa2c4dbe6d85e6cba0bd964",
+      "createdAt": "2018-09-09T00:56:32.35551387Z",
+      "confirmed": true,
+      "sender": "qbDif8r9r3NwTdpezqK3nrV8B4aMqWKVHG",
+      "senderHex": "c1ba39629c5954b7c86abe5a96b095d144f13afc"
+    }
+  },
+  "libraries": {},
+  "related": {
+    "Gateway.sol:SafeMath": {
+      "source": "Gateway.sol:SafeMath",
+      "name": "SafeMath",
+      "abi": [],
+      "bin": "604c602c600b82828239805160001a60731460008114601c57601e565bfe5b5030600052607381538281f30073000000000000000000000000000000000000000030146080604052600080fd00a165627a7a72305820e85dd556bd335c50f525a0aad9c0ba9f86ce3158df970b417257558e29faf17d0029",
+      "binhash": "c68c4390ca5cda148f4970127a90fd383efd570d35b9ee559af30025b82be394"
+    }
+  }
+}

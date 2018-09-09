@@ -4,6 +4,8 @@
 
 ### QTUM & BTC
 
+Update [swap_script](git@github.com:DexHunter/swap_script.git) by `git submodule update --remote --merge`
+
 ### ERC-20 Token & BTC
 
 ### ERC-721 Token & BTC
