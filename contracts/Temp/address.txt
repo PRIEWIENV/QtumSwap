@@ -1,3 +1,4 @@
+Qtum TestNet
 OWNER
 qbDif8r9r3NwTdpezqK3nrV8B4aMqWKVHG
 
