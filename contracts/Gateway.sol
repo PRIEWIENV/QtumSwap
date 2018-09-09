@@ -297,6 +297,59 @@ contract Gateway is Pausable {
         emit Recharge(msg.sender, _to, _amount, _tokenAddr, _hash, _lockTime);
     }
 
+
+    /**
+     * @dev Hashed Timelock Contracts
+     * @dev Qtum, Eth, Eos and so on
+     */
+    function rechargeInCoin(bytes32 _hash, address _to, uint256 _lockTime) 
+        public
+        payable
+    {
+        require(_lockTime >= minLockTime && _lockTime <= maxLockTime, "error lockTime");
+
+        uint256 _amount = msg.value;
+
+
+        lockers[msg.sender].startTime = now;
+        lockers[msg.sender].lockTime = _lockTime;
+        lockers[msg.sender].amount = _amount;
+        lockers[msg.sender].hashStr = _hash;
+        lockers[msg.sender].tokenAddress = address(0);
+        lockers[msg.sender].to = _to;
+    
+
+
+        emit Recharge(msg.sender, _to, _amount, 0x0, _hash, _lockTime);
+    }
+
+
+    /**
+     * @dev Hashed Timelock Contracts
+     * @dev exam:
+     */
+    function rechargeInNFT(bytes32 _hash, uint256 _tokenId, address _tokenAddr, address _to, uint256 _lockTime) 
+        public
+    {
+        require(_tokenAddr.isContract(), "error token address");
+        require(_lockTime >= minLockTime && _lockTime <= maxLockTime, "error lockTime");
+
+        ERC20Interface token = ERC20Interface(_tokenAddr);
+
+        token.transferFrom(msg.sender, address(this), _tokenId);
+
+        lockers[msg.sender].startTime = now;
+        lockers[msg.sender].lockTime = _lockTime;
+        lockers[msg.sender].amount = _tokenId;
+        lockers[msg.sender].hashStr = _hash;
+        lockers[msg.sender].tokenAddress = _tokenAddr;
+        lockers[msg.sender].to = _to;
+    
+
+
+        emit Recharge(msg.sender, _to, _tokenId, _tokenAddr, _hash, _lockTime);
+    }
+
 /*
     function recharge(address _addr, uint256 _amount)
         public
@@ -324,6 +377,34 @@ contract Gateway is Pausable {
             emit Withdraw(_from, lockers[_from].to, lockers[_from].amount, lockers[_from].tokenAddress, lockers[_from].hashStr);
         }
     }
+
+    function withdrawToInCoin(string _key, address _from)
+        public
+    {
+        bytes32 _hash = keccak256(abi.encodePacked(_key));
+        lockers[_from].hashStr = _hash;
+
+        lockers[_from].to.transfer(lockers[_from].amount);
+        delete lockers[_from];
+        emit Withdraw(_from, lockers[_from].to, lockers[_from].amount, lockers[_from].tokenAddress, lockers[_from].hashStr);   
+    }
+
+    function withdrawToInNFT(string _key, address _from) public {
+        bytes32 _hash = keccak256(abi.encodePacked(_key));
+        lockers[_from].hashStr = _hash;
+
+        address _tokenAddress = lockers[_from].tokenAddress;
+
+        ERC20Interface token = ERC20Interface(_tokenAddress);
+
+        if(token.transfer(lockers[_from].to, lockers[_from].amount)) {
+            delete lockers[_from];
+            emit Withdraw(_from, lockers[_from].to, lockers[_from].amount, lockers[_from].tokenAddress, lockers[_from].hashStr);
+        } 
+    }
+
+
+
 
 
     function recharge2(bytes32 _hash, uint256 _amount, address _tokenAddr, address _to, uint256 _lockTime) 
@@ -416,8 +497,8 @@ contract Gateway is Pausable {
     function testEvent(address _addr, uint256 _i, bool _bool, bytes32 _bytes32) 
         public 
     {
-	test = _addr;		
-    	emit Test(_addr, _i, _bool, _bytes32);
+        test = _addr;
+        emit Test(_addr, _i, _bool, _bytes32);
     }
 
 }
