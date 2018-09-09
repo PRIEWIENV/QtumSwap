@@ -1,0 +1,11 @@
+OWNER
+qbDif8r9r3NwTdpezqK3nrV8B4aMqWKVHG
+
+🚀  All contracts confirmed
+   deployed ERC20token.sol => 9b27bb84472ad492426c5c906cde84a02552efa4
+
+🚀  All contracts confirmed
+   deployed Gateway.sol => 89e8a371cd130c3d5124058a5211777fdb65a635
+
+🚀  All contracts confirmed
+   deployed Market.sol => 80e8284a4a3e0b7e003e916fa2999096446d7b00
