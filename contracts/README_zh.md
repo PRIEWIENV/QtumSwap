@@ -1,4 +1,4 @@
-# 租房流程
+## 租房流程
 租客`A` 他的BTC地址是`A_b`, Qtum地址是`A_q`
 房东`B` 他的BTC地址是`B_b`, Qtum地址是`B_q`
 
@@ -12,7 +12,7 @@
 5、房东根据`s_k`在CLTV脚本上得到`V` BTC
 
 
-# Gateway原子交换步骤（支持Qtum与BTC, ERC20 token, NTF token交换）
+## Gateway原子交换步骤（支持Qtum与BTC, ERC20 token, NTF token交换）
 现在有一个ERC20 token TOK部署在Qtum上，它的合约地址是`addr`
 玩家`A`和玩家`B`商量好了，玩家`A`用1000 TOK 换玩家`B` 10 BTC。
 `hash = hash(k)`
