@@ -4,7 +4,7 @@
 
 ### QTUM & BTC
 
-An atomic swap protocol based on Qtum's UTXOs.
+An atomic swap protocol based on Qtum's UTXOs. Refer to [https://github.com/PRIEWIENV/QtumSwap/tree/master/quantum_swap]
 Update [swap_script](git@github.com:DexHunter/swap_script.git) by `git submodule update --remote --merge`
 
 ### ERC-20 Token & BTC
