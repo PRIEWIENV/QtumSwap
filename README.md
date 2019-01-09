@@ -16,3 +16,7 @@ A Gateway contract supporting atomic swap between ERC 20 tokens on Qtum and BTC.
 Just like a decentralized Airbnb. In this demo, users can unlock the raspberry pi set using BTC.
 
 The frontend is in the `demo` directory
+
+![](image/d-rent.png)
+
+![](image/d-rent2.png)

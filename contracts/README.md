@@ -11,6 +11,7 @@
 4、租客解锁门锁，输入`s_k`, `houseNum`。
 5、房东根据`s_k`在CLTV脚本上得到`V` BTC
 
+![](image/renting.png)
 
 ## Gateway原子交换步骤（支持Qtum与BTC, ERC20 token, NTF token交换）
 现在有一个ERC20 token TOK部署在Qtum上，它的合约地址是`addr`
@@ -22,3 +23,5 @@
 3、玩家`B`输入时间`T`半天，`hash`, `A`的比特币地址，10 BTC，生成一个CLTV脚本，锁定10 BTC。
 4、玩家`A`去解锁那个CLTV脚本，输入`k`，得到10 BTC.
 5、玩家`B`得到`k`，调用Gateway的`withdrawTo`，输入`k`，玩家`A`的qtum地址，得到1000 TOK
+
+![](image/gateway.png)

@@ -14,6 +14,7 @@ S: Secret
 5. A spends CLTV2 on BTC, B listens new UXTO and gets S
 6. B spends CLTV1 on QTUM
 
+![](image/atomic_swap.png)
 
 ## How to use
 
@@ -21,7 +22,6 @@ S: Secret
 npm i
 npm test
 ```
-
 
 ## FAQ
 
